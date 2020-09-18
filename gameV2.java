@@ -5,8 +5,12 @@ public class gameV2 {
     public static byte activePlayer = 1;
 
     public static void main(String[] args) {
-        byte winner = 0;
         System.out.println("Welcome zu 4 wins");
+        game();
+
+    }
+    public static void game() { //startet das Spiel
+        byte winner = 0;
         while (winner == 0) {
             turn();
             print();
@@ -22,9 +26,7 @@ public class gameV2 {
             }
         }
         System.out.println("Congratulations, Player " + winner);
-
     }
-
     public static void print() { //druckt das Spielfeld aus
         System.out.println();
         System.out.println();
@@ -34,15 +36,15 @@ public class gameV2 {
         for (int i = 5; i >= 0; --i) {
             for (int j = 0; j < fields[i].length; ++j) {
                 int x = fields[i][j];
-                System.out.print(x == 0 ? "  " : x == 1 ? "X " : "O ");
+                System.out.print(x == 0 ? "  " : x == 1 ? "X " : "O "); //gibt jedes Feld einzeln aus
             }
-            System.out.println(" [" + c + "]");
+            System.out.println(" [" + c + "]");//gibt die "Höhe" aus
             c--;
         }
         System.out.println("1 2 3 4 5 6 7");
     }
 
-    public static void turn() {
+    public static void turn() { // fürt einen Spielzug aus (Nach Reihe fragen und Stein setzen)
         System.out.println(activePlayer == 1 ? "Player 1's turn" : activePlayer == 2 ? "Player 2's turn" : "ERROR");
         byte column = askForColumn(); //Gibt wert zwischen 1 und 7 zurück
         byte row = checkColumn(column);
@@ -79,12 +81,12 @@ public class gameV2 {
         return numOfStones;
     }
 
-    public static boolean checkWin() {
+    public static boolean checkWin() { //Testet ob es 4 in einer Reihe gibt
         boolean foundWin = false;
         byte checkedRow = 0;
         byte checkedColumn = 0;
 
-        while (checkedRow <= 5) {
+        while (checkedRow <= 5) { //testet die horizontalen Steine
             if (checkWinRow(checkedRow)) {
                 foundWin = true;
                 break;
@@ -92,7 +94,7 @@ public class gameV2 {
                 checkedRow++;
             }
         }
-        while (checkedColumn <= 6) {
+        while (checkedColumn <= 6) { //testet die vertikalen Steine
             if (checkWinColumn(checkedColumn)) {
                 foundWin = true;
                 break;
@@ -100,13 +102,13 @@ public class gameV2 {
                 checkedColumn++;
             }
         }
-        if (checkWinDiagonal()) {
+        if (checkWinDiagonal()) { //testet die Diagonalen steine
             foundWin = true;
         }
         return foundWin;
     }
 
-    public static boolean checkWinRow(byte row) {
+    public static boolean checkWinRow(byte row) { //testet, ob 4 steine horizontal nebeneinander sind
         boolean foundWin = false;
         byte i = 0;
         while (i < 3) {
@@ -119,7 +121,7 @@ public class gameV2 {
         return foundWin;
     }
 
-    public static boolean checkWinColumn(byte column) {
+    public static boolean checkWinColumn(byte column) { //testet, ob 4 steine vertikal untereinander sind
         boolean foundWin = false;
         byte i = 0;
         while (i < 2) {
@@ -132,10 +134,10 @@ public class gameV2 {
         return foundWin;
     }
 
-    public static boolean checkWinDiagonal() {
+    public static boolean checkWinDiagonal() { //testet, ob 4 Steine diagonal nebeneinander sind
         boolean foundWin = false;
 
-        for (byte i = 5; i >= 3; --i) {
+        for (byte i = 5; i >= 3; --i) { //testet die steine abwärts
             for (byte j = 0; j <= 2; ++j) {
                 if (fields[i][j] == activePlayer && fields[i - 1][j + 1] == activePlayer && fields[i - 2][j + 2] == activePlayer && fields[i - 3][j + 3] == activePlayer) {
                     foundWin = true;
@@ -143,7 +145,7 @@ public class gameV2 {
                 }
             }
         }
-        for (byte i = 5; i >= 3; --i) {
+        for (byte i = 5; i >= 3; --i) { //testet die steine aufwärts
             for (byte j = 3; j <= 6; ++j) {
                 if (foundWin | fields[i][j] == activePlayer && fields[i - 1][j - 1] == activePlayer && fields[i - 2][j - 2] == activePlayer && fields[i - 3][j - 3] == activePlayer) {
                     foundWin = true;
